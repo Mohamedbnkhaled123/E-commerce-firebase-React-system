@@ -13,9 +13,9 @@ export const HomePage = () => {
     const featuredProducts = products.slice(0, 4);
 
     const categories = [
-        { name: 'Electronics', image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=600&q=80' },
-        { name: 'Accessories', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80' },
-        { name: 'Furniture', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80' },
+        { name: 'Dresses', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&q=80' },
+        { name: 'Sweatshirts', image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&q=80' },
+        { name: 'Blouses', image: 'https://images.unsplash.com/photo-1624206112918-c2f6d096e449?w=600&q=80' },
     ];
 
     const handleSearch = (query: string) => {
