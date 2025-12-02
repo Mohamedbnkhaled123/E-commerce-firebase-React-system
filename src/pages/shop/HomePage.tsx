@@ -13,9 +13,9 @@ export const HomePage = () => {
     const featuredProducts = products.slice(0, 4);
 
     const categories = [
-        { name: 'Dresses', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&q=80' },
-        { name: 'Sweatshirts', image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&q=80' },
-        { name: 'Blouses', image: 'https://images.unsplash.com/photo-1624206112918-c2f6d096e449?w=600&q=80' },
+        { name: 'Dresses', image: '/products/dress-floral.png' },
+        { name: 'Sweatshirts', image: '/products/sweatshirt-beige.png' },
+        { name: 'Blouses', image: '/products/blouse-silk.png' },
     ];
 
     const handleSearch = (query: string) => {
@@ -41,9 +41,9 @@ export const HomePage = () => {
             <section className="relative bg-velora-gradient px-6 py-24 sm:py-32 lg:px-8">
                 <div className="absolute inset-0 overflow-hidden">
                     <img
-                        src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&q=80"
-                        alt="Luxury Bags"
-                        className="h-full w-full object-cover object-center opacity-20"
+                        src="/hero-bag.png"
+                        alt="Velora Luxury Bags"
+                        className="h-full w-full object-cover object-center opacity-30"
                     />
                 </div>
                 <div className="relative mx-auto max-w-2xl text-center">
