@@ -38,20 +38,20 @@ export const HomePage = () => {
     return (
         <div className="space-y-16 pb-16">
             {/* Hero Section */}
-            <section className="relative bg-gray-900 px-6 py-24 sm:py-32 lg:px-8">
+            <section className="relative bg-velora-gradient px-6 py-24 sm:py-32 lg:px-8">
                 <div className="absolute inset-0 overflow-hidden">
                     <img
-                        src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80"
-                        alt="Background"
-                        className="h-full w-full object-cover object-center opacity-30"
+                        src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&q=80"
+                        alt="Luxury Bags"
+                        className="h-full w-full object-cover object-center opacity-20"
                     />
                 </div>
                 <div className="relative mx-auto max-w-2xl text-center">
-                    <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                        Elevate Your Lifestyle
+                    <h1 className="text-4xl font-serif font-bold tracking-tight text-white sm:text-6xl">
+                        Discover Velora Bags
                     </h1>
-                    <p className="mt-6 text-lg leading-8 text-gray-300">
-                        Discover our curated collection of premium goods designed to enhance your everyday life. Quality, style, and functionality in perfect harmony.
+                    <p className="mt-6 text-lg leading-8 text-white/90">
+                        Premium handcrafted bags designed for the modern woman. Elegant, feminine, and timeless pieces that elevate your style.
                     </p>
 
                     {/* Search Bar */}
@@ -59,14 +59,14 @@ export const HomePage = () => {
                         <div className="w-full max-w-lg">
                             <SearchBar
                                 onSearch={handleSearch}
-                                placeholder="Search for products..."
+                                placeholder="Search for bags..."
                             />
                         </div>
                     </div>
 
                     <div className="mt-6 flex items-center justify-center gap-x-6">
                         <Link to="/products">
-                            <Button size="lg" className="gap-2 bg-primary hover:bg-primary-600">
+                            <Button size="lg" className="gap-2 bg-white text-velora hover:bg-velora-bg border-2 border-white">
                                 Shop Now <ArrowRight className="h-4 w-4" />
                             </Button>
                         </Link>
@@ -77,8 +77,8 @@ export const HomePage = () => {
             {/* Conditional Rendering: Search Results OR Categories/Trending */}
             {searchQuery ? (
                 <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between border-b border-gray-200 pb-6">
-                        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+                    <div className="flex items-center justify-between border-b border-velora-muted pb-6">
+                        <h2 className="text-2xl font-serif font-bold tracking-tight text-velora-dark">
                             Search Results for "{searchQuery}"
                         </h2>
                         <span className="text-sm text-gray-500">
@@ -109,7 +109,7 @@ export const HomePage = () => {
                                     />
                                 </svg>
                             </div>
-                            <h3 className="mt-4 text-lg font-semibold text-gray-900">No products found</h3>
+                            <h3 className="mt-4 text-lg font-serif font-semibold text-velora-dark">No products found</h3>
                             <p className="mt-2 text-sm text-gray-500">
                                 Try adjusting your search to find what you're looking for.
                             </p>
@@ -120,7 +120,7 @@ export const HomePage = () => {
                 <>
                     {/* Featured Categories */}
                     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Shop by Category</h2>
+                        <h2 className="text-2xl font-serif font-bold tracking-tight text-velora-dark">Shop by Category</h2>
                         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
                             {categories.map((category) => (
                                 <Link
@@ -159,8 +159,8 @@ export const HomePage = () => {
                     {/* Trending Products */}
                     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-2xl font-bold tracking-tight text-gray-900">Trending Now</h2>
-                            <Link to="/products" className="text-sm font-medium text-black hover:underline">
+                            <h2 className="text-2xl font-serif font-bold tracking-tight text-velora-dark">Trending Now</h2>
+                            <Link to="/products" className="text-sm font-medium text-velora hover:text-velora-dark hover:underline">
                                 View all
                             </Link>
                         </div>

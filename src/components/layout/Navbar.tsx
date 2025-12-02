@@ -1,8 +1,7 @@
-import { ShoppingCart, Menu, X, Search } from 'lucide-react';
+import { ShoppingCart, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCartStore } from '../../store/useCartStore';
-import { Button } from '../common/Button';
 import { cn } from '../../utils/cn';
 
 export const Navbar = () => {
@@ -20,13 +19,13 @@ export const Navbar = () => {
     ];
 
     return (
-        <nav className="sticky top-0 z-40 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
+        <nav className="sticky top-0 z-40 w-full border-b border-velora-muted bg-white/90 backdrop-blur-md">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
+                <div className="flex h-20 items-center justify-between">
                     {/* Logo */}
                     <div className="flex-shrink-0">
-                        <Link to="/" className="text-2xl font-bold tracking-tighter text-black">
-                            STORE.
+                        <Link to="/" className="flex items-center gap-2">
+                            <img src="/velora-logo.png" alt="Velora Bags" className="h-16 w-auto object-contain" />
                         </Link>
                     </div>
 
@@ -38,10 +37,10 @@ export const Navbar = () => {
                                     key={link.href}
                                     to={link.href}
                                     className={cn(
-                                        'text-sm transition-colors hover:text-black',
+                                        'text-sm font-medium transition-colors duration-200',
                                         location.pathname === link.href
-                                            ? 'font-medium text-black'
-                                            : 'text-gray-500',
+                                            ? 'text-velora-dark border-b-2 border-velora'
+                                            : 'text-velora-text hover:text-velora',
                                         link.className
                                     )}
                                 >
@@ -55,11 +54,11 @@ export const Navbar = () => {
                     <div className="flex items-center gap-4">
                         <button
                             onClick={toggleCart}
-                            className="relative rounded-full p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-black"
+                            className="relative rounded-full p-2 text-velora-text transition-colors hover:bg-velora-bg hover:text-velora-dark"
                         >
-                            <ShoppingCart className="h-5 w-5" />
+                            <ShoppingCart className="h-6 w-6" />
                             {cartCount > 0 && (
-                                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] font-bold text-white animate-bounce-in">
+                                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-velora text-[10px] font-bold text-white animate-bounce-in">
                                     {cartCount}
                                 </span>
                             )}
@@ -69,7 +68,7 @@ export const Navbar = () => {
                         <div className="md:hidden">
                             <button
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                className="rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-black"
+                                className="rounded-md p-2 text-velora-text hover:bg-velora-bg hover:text-velora-dark"
                             >
                                 {isMenuOpen ? (
                                     <X className="h-6 w-6" />
@@ -84,8 +83,8 @@ export const Navbar = () => {
 
             {/* Mobile Navigation */}
             {isMenuOpen && (
-                <div className="md:hidden border-t border-gray-100">
-                    <div className="space-y-1 px-2 pb-3 pt-2">
+                <div className="md:hidden border-t border-velora-muted bg-white">
+                    <div className="space-y-1 px-4 pb-4 pt-2">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}
@@ -93,8 +92,8 @@ export const Navbar = () => {
                                 className={cn(
                                     'block rounded-md px-3 py-2 text-base font-medium',
                                     location.pathname === link.href
-                                        ? 'bg-gray-50 text-black'
-                                        : 'text-gray-500 hover:bg-gray-50 hover:text-black',
+                                        ? 'bg-velora-bg text-velora-dark'
+                                        : 'text-velora-text hover:bg-velora-bg hover:text-velora-dark',
                                     link.className
                                 )}
                                 onClick={() => setIsMenuOpen(false)}

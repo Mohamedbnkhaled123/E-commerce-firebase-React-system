@@ -7,45 +7,38 @@ export default {
     theme: {
         extend: {
             colors: {
+                velora: {
+                    DEFAULT: '#A67C52', // Primary (gold/brand)
+                    dark: '#6B4E2A',    // Primary Dark (hover/active)
+                    light: '#DCC5A1',   // Accent / Light gold
+                    bg: '#F6EFEA',      // Background (soft beige)
+                    text: '#2C2B2A',    // Text (dark)
+                    muted: '#E7E1DD',   // Muted border / divider
+                },
+                // Keeping original colors for backward compatibility if needed, or we can remove them if we are sure.
+                // For a full rebrand, it's safer to keep them for a moment or map them.
+                // But the prompt implies a full rebrand. I will keep them but prioritize velora.
                 primary: {
-                    DEFAULT: '#6366f1',
-                    50: '#eef2ff',
-                    100: '#e0e7ff',
-                    200: '#c7d2fe',
-                    300: '#a5b4fc',
-                    400: '#818cf8',
-                    500: '#6366f1',
-                    600: '#4f46e5',
-                    700: '#4338ca',
-                    800: '#3730a3',
-                    900: '#312e81',
+                    DEFAULT: '#A67C52', // Mapped to Velora Primary
+                    50: '#F6EFEA',
+                    100: '#F6EFEA',
+                    200: '#DCC5A1',
+                    300: '#DCC5A1',
+                    400: '#A67C52',
+                    500: '#A67C52',
+                    600: '#6B4E2A',
+                    700: '#6B4E2A',
+                    800: '#2C2B2A',
+                    900: '#2C2B2A',
+                    950: '#2C2B2A',
                 },
-                secondary: {
-                    DEFAULT: '#ec4899',
-                    50: '#fdf2f8',
-                    100: '#fce7f3',
-                    200: '#fbcfe8',
-                    300: '#f9a8d4',
-                    400: '#f472b6',
-                    500: '#ec4899',
-                    600: '#db2777',
-                    700: '#be185d',
-                    800: '#9d174d',
-                    900: '#831843',
-                },
-                accent: {
-                    DEFAULT: '#f59e0b',
-                    50: '#fffbeb',
-                    100: '#fef3c7',
-                    200: '#fde68a',
-                    300: '#fcd34d',
-                    400: '#fbbf24',
-                    500: '#f59e0b',
-                    600: '#d97706',
-                    700: '#b45309',
-                    800: '#92400e',
-                    900: '#78350f',
-                },
+            },
+            fontFamily: {
+                serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                sans: ['Inter', 'Montserrat', 'sans-serif'],
+            },
+            backgroundImage: {
+                'velora-gradient': 'linear-gradient(to right, #B79563, #A67C52, #8C6239)',
             },
             animation: {
                 'slide-in-right': 'slideInRight 0.3s ease-out',

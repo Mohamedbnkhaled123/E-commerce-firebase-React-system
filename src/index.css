@@ -1,3 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+  color: #2C2B2A;
+  background-color: #F6EFEA;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+@layer components {
+
+    /* Primary Button Styles */
+    .btn-primary {
+        background-color: #3A6FF7;
+        color: #F6FAFF;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-primary:hover {
+        background-color: #2F5DD3;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(58, 111, 247, 0.3);
+    }
+
+    .btn-primary:active {
+        background-color: #274FAF;
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(39, 79, 175, 0.3);
+    }
+}

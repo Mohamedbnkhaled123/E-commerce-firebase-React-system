@@ -113,10 +113,10 @@ export const CartDrawer = () => {
                             <span className="text-base font-medium text-gray-900">Subtotal</span>
                             <span className="text-lg font-bold text-gray-900">${total.toFixed(2)}</span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="flex flex-col gap-4">
                             <Button
                                 size="lg"
-                                className="w-full bg-primary hover:bg-primary-600"
+                                className="w-full"
                                 onClick={handleCheckout}
                             >
                                 Checkout
