@@ -98,6 +98,15 @@ export class FirebaseService<T extends { id?: string }> implements EntityService
     subscribe(callback: (data: T[]) => void): () => void {
         const q = query(this.collectionRef);
         return onSnapshot(q, (snapshot) => {
+            console.group(`[FirebaseService] Update for ${this.collectionRef.path}`);
+            console.log('Snapshot metadata:', {
+                fromCache: snapshot.metadata.fromCache,
+                hasPendingWrites: snapshot.metadata.hasPendingWrites,
+                empty: snapshot.empty
+            });
+            console.log('Documents count:', snapshot.docs.length);
+            console.groupEnd();
+
             const items = snapshot.docs
                 .map(doc => {
                     const data = doc.data();
