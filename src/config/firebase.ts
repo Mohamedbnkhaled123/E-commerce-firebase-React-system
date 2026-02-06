@@ -19,13 +19,13 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
 
-// Enable offline persistence
+// Disable offline persistence temporarily to debug real-time sync with cloud
+/*
 enableIndexedDbPersistence(db).catch((err) => {
     if (err.code === 'failed-precondition') {
-        // Multiple tabs open, persistence can only be enabled in one tab at a time
         console.warn('Firebase persistence failed: Multiple tabs open');
     } else if (err.code === 'unimplemented') {
-        // The current browser doesn't support persistence
         console.warn('Firebase persistence not supported in this browser');
     }
 });
+*/

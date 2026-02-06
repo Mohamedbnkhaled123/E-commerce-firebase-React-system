@@ -144,8 +144,20 @@ export const useProductStore = create<ProductStore>((set, get) => ({
             updateState();
         });
 
+        const unsubCategories = categoryService.subscribe((categories) => {
+            // Merge static categories with DB categories, avoiding duplicates by name
+            const dbCategoryNames = new Set(categories.map(c => c.name.trim().toLowerCase()));
+            const allCategories = [
+                ...categories,
+                ...CATEGORIES.filter(c => !dbCategoryNames.has(c.name.trim().toLowerCase()))
+            ];
+            set({ categories: allCategories });
+            updateState();
+        });
+
         return () => {
             unsubProducts();
+            unsubCategories();
         };
     }
 }));

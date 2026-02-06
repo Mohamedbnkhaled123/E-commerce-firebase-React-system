@@ -26,7 +26,8 @@ export async function seedInitialData() {
         if (existingCategories.length === 0) {
             // Seed all categories
             for (const category of CATEGORIES) {
-                await categoryService.create(category as Category);
+                const { id: _unused, ...catData } = category;
+                await categoryService.create(catData as Category);
             }
         } else {
             // Check for missing categories and add them
@@ -80,15 +81,16 @@ export async function seedInitialData() {
         // Seed missing products
         if (existingProducts.length < INITIAL_PRODUCTS.length) {
             for (const product of INITIAL_PRODUCTS) {
+                const { id: _unused, ...productData } = product; // Remove static ID
                 const sName = product.name.trim().toLowerCase();
                 const exists = existingProducts.some(p => p.name.trim().toLowerCase() === sName);
 
                 if (!exists) {
                     await productService.create({
-                        ...product,
+                        ...productData,
                         createdAt: new Date(),
                         updatedAt: new Date()
-                    });
+                    } as any);
                 }
             }
         }
