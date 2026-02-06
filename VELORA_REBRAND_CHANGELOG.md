@@ -25,10 +25,10 @@ This branch contains the complete rebranding of the e-commerce site from "Shopro
 - **`src/components/product/ProductCard.tsx`** - Updated card styling with rounded borders, Velora colors, and serif fonts
 
 ### Pages
-- **`src/pages/shop/HomePage.tsx`** - Updated Hero section with Velora gradient, new branding text, and Velora colors throughout. Updated categories to Dresses, Sweatshirts, and Blouses.
+- **`src/pages/shop/HomePage.tsx`** - Updated Hero section with Velora gradient, new branding text, and Velora colors throughout. Updated categories to 4 columns: Dresses, Sweatshirts, Blouses, and Bags.
 
 ### Data
-- **`src/store/useProductStore.ts`** - Updated mock products to feature women's clothing (Dresses, Sweatshirts, Blouses) with flat-lay images instead of electronics/furniture.
+- **`src/store/useProductStore.ts`** - Updated mock products to feature women's clothing (Dresses, Sweatshirts, Blouses) with flat-lay images. Added new "Bags" category with 2 products.
 - **Images**: Replaced all external Unsplash URLs with custom generated high-quality flat-lay images (no models) for a consistent modest aesthetic.
 
 ### Assets

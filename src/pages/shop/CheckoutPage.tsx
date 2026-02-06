@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard, MapPin, User, Mail, Phone, Lock } from 'lucide-react';
+import { CreditCard, MapPin, User, Lock } from 'lucide-react';
 import { useCartStore } from '../../store/useCartStore';
+import { useProductStore } from '../../store/useProductStore';
 import { useToast } from '../../contexts/ToastContext';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 
 export const CheckoutPage = () => {
     const { items, getCartTotal, clearCart } = useCartStore();
+    const reduceStock = useProductStore((state) => state.reduceStock);
+    const products = useProductStore((state) => state.products);
     const { showToast } = useToast();
     const navigate = useNavigate();
     const total = getCartTotal();
@@ -42,8 +45,22 @@ export const CheckoutPage = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Validate stock availability before processing
+        for (const item of items) {
+            const product = products.find((p) => p.id === item.id);
+            if (!product || product.stock < item.quantity) {
+                showToast('error', `${item.name} is out of stock or insufficient quantity available.`);
+                return;
+            }
+        }
+
         // Simulate order processing
         setTimeout(() => {
+            // Reduce stock for each item
+            items.forEach((item) => {
+                reduceStock(item.id, item.quantity);
+            });
+
             clearCart();
             showToast('success', 'Order placed successfully! 🎉');
             navigate('/');

@@ -10,6 +10,7 @@ export default {
                 velora: {
                     DEFAULT: '#A67C52', // Primary (gold/brand)
                     dark: '#6B4E2A',    // Primary Dark (hover/active)
+                    darker: '#5A4122',  // Primary Darker (active)
                     light: '#DCC5A1',   // Accent / Light gold
                     bg: '#F6EFEA',      // Background (soft beige)
                     text: '#2C2B2A',    // Text (dark)

@@ -1,4 +1,4 @@
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCartStore } from '../../store/useCartStore';
@@ -30,7 +30,7 @@ export const Navbar = () => {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:block">
+                    <div className="hidden lg:block">
                         <div className="flex items-center space-x-8">
                             {navLinks.map((link) => (
                                 <Link
@@ -64,17 +64,34 @@ export const Navbar = () => {
                             )}
                         </button>
 
+                        {/* Login Button */}
+                        <Link
+                            to="/admin/login"
+                            className="p-2 text-velora-text transition-colors hover:text-velora-dark hover:bg-velora-bg rounded-full"
+                            title="Login"
+                        >
+                            <User className="h-6 w-6" />
+                        </Link>
+
                         {/* Mobile menu button */}
-                        <div className="md:hidden">
+                        <div className="lg:hidden">
                             <button
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                className="rounded-md p-2 text-velora-text hover:bg-velora-bg hover:text-velora-dark"
+                                className="relative h-10 w-10 rounded-md text-velora-text hover:bg-velora-bg hover:text-velora-dark focus:outline-none"
+                                aria-label="Toggle menu"
                             >
-                                {isMenuOpen ? (
-                                    <X className="h-6 w-6" />
-                                ) : (
-                                    <Menu className="h-6 w-6" />
-                                )}
+                                <Menu
+                                    className={cn(
+                                        'absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out',
+                                        isMenuOpen ? 'scale-0 opacity-0 rotate-90' : 'scale-100 opacity-100 rotate-0'
+                                    )}
+                                />
+                                <X
+                                    className={cn(
+                                        'absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out',
+                                        isMenuOpen ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 -rotate-90'
+                                    )}
+                                />
                             </button>
                         </div>
                     </div>
@@ -83,7 +100,7 @@ export const Navbar = () => {
 
             {/* Mobile Navigation */}
             {isMenuOpen && (
-                <div className="md:hidden border-t border-velora-muted bg-white">
+                <div className="lg:hidden border-t border-velora-muted bg-white">
                     <div className="space-y-1 px-4 pb-4 pt-2">
                         {navLinks.map((link) => (
                             <Link

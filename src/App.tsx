@@ -15,6 +15,7 @@ import { ProductDetailsPage } from './pages/shop/ProductDetailsPage';
 import { CartPage } from './pages/shop/CartPage';
 import { CheckoutPage } from './pages/shop/CheckoutPage';
 import { SalesPage } from './pages/shop/SalesPage';
+import { AboutPage } from './pages/shop/AboutPage';
 
 // Admin Pages
 import { AdminLoginPage } from './pages/admin/AdminLoginPage';
@@ -22,7 +23,22 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AddProductPage } from './pages/admin/AddProductPage';
 import { EditProductPage } from './pages/admin/EditProductPage';
 
+import { useEffect } from 'react';
+import { useProductStore } from './store/useProductStore';
+
+import { seedInitialData } from './utils/seedData';
+
 function App() {
+  const initialize = useProductStore((state) => state.initialize);
+
+  useEffect(() => {
+    // Seed initial data if needed
+    seedInitialData();
+
+    const unsub = initialize();
+    return () => unsub();
+  }, [initialize]);
+
   return (
     <ToastProvider>
       <Router>
@@ -33,13 +49,14 @@ function App() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:id" element={<ProductDetailsPage />} />
             <Route path="/sales" element={<SalesPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
           </Route>
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLoginPage />} />
-          
+
           <Route
             path="/admin"
             element={
@@ -56,7 +73,7 @@ function App() {
           {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-        
+
         {/* Global Components */}
         <ToastContainer />
         <CartDrawer />

@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ShoppingBag, ArrowLeft, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
+import { ShoppingBag, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 import { useProductStore } from '../../store/useProductStore';
 import { useCartStore } from '../../store/useCartStore';
 import { useToast } from '../../contexts/ToastContext';
 import { Button } from '../../components/common/Button';
 import { Breadcrumbs } from '../../components/common/Breadcrumbs';
+import { ImageWithFallback } from '../../components/common/ImageWithFallback';
 
 export const ProductDetailsPage = () => {
     const { id } = useParams();
@@ -45,7 +46,7 @@ export const ProductDetailsPage = () => {
                 <Breadcrumbs
                     items={[
                         { label: 'Products', href: '/products' },
-                        { label: product.category, href: `/products?category=${product.category}` },
+                        { label: product.category || 'Uncategorized', href: `/products?category=${product.category || ''}` },
                         { label: product.name },
                     ]}
                 />
@@ -59,7 +60,19 @@ export const ProductDetailsPage = () => {
                             SAVE {discountPercentage}%
                         </div>
                     )}
-                    <img
+
+                    {/* Stock Badge */}
+                    {product.stock === 0 ? (
+                        <div className="absolute right-6 top-6 z-10 rounded-full bg-gray-900 px-4 py-2 text-sm font-bold text-white shadow-md">
+                            Out of Stock
+                        </div>
+                    ) : product.stock < 10 && (
+                        <div className={`absolute right-6 top-6 z-10 rounded-full px-4 py-2 text-sm font-bold text-white shadow-md ${product.stock < 5 ? 'bg-red-600' : 'bg-orange-500'
+                            }`}>
+                            Only {product.stock} left{product.stock < 5 ? '!' : ''}
+                        </div>
+                    )}
+                    <ImageWithFallback
                         src={product.image}
                         alt={product.name}
                         className="h-full w-full object-cover object-center"
@@ -67,7 +80,7 @@ export const ProductDetailsPage = () => {
                 </div>
 
                 {/* Product Info */}
-                <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+                <div className="mt-10 px-4 lg:mt-0 lg:px-0">
                     <div className="mb-6">
                         <span className="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700 ring-1 ring-inset ring-primary-700/10">
                             {product.category}
@@ -92,20 +105,42 @@ export const ProductDetailsPage = () => {
                         <p className="text-base text-gray-600 leading-relaxed">
                             {product.description}
                         </p>
+
+                        {/* Stock Info */}
+                        {product.stock < 10 && product.stock > 0 && (
+                            <div className={`rounded-lg p-4 ${product.stock < 5 ? 'bg-red-50 border border-red-200' : 'bg-orange-50 border border-orange-200'
+                                }`}>
+                                <p className={`text-sm font-semibold ${product.stock < 5 ? 'text-red-700' : 'text-orange-700'
+                                    }`}>
+                                    ⚠️ Only {product.stock} {product.stock === 1 ? 'item' : 'items'} left in stock!
+                                </p>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                        <Button size="lg" className="flex-1 gap-2 bg-primary hover:bg-primary-600" onClick={handleAddToCart}>
+                    <div className="mt-10 flex flex-col gap-4 lg:flex-row">
+                        <Button
+                            size="lg"
+                            className="flex-1 gap-2 bg-primary hover:bg-primary-600"
+                            onClick={handleAddToCart}
+                            disabled={product.stock === 0}
+                        >
                             <ShoppingBag className="h-5 w-5" />
-                            Add to Cart
+                            {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                         </Button>
-                        <Button size="lg" variant="outline" className="flex-1" onClick={handleBuyNow}>
-                            Buy Now
+                        <Button
+                            size="lg"
+                            variant="outline"
+                            className="flex-1"
+                            onClick={handleBuyNow}
+                            disabled={product.stock === 0}
+                        >
+                            {product.stock === 0 ? 'Out of Stock' : 'Buy Now'}
                         </Button>
                     </div>
 
                     {/* Additional Info */}
-                    <div className="mt-12 grid grid-cols-1 gap-6 border-t border-gray-200 pt-10 sm:grid-cols-3">
+                    <div className="mt-12 grid grid-cols-1 gap-6 border-t border-gray-200 pt-10 lg:grid-cols-3">
                         <div className="flex items-center gap-3">
                             <ShieldCheck className="h-6 w-6 text-gray-400" />
                             <span className="text-sm font-medium text-gray-900">2 Year Warranty</span>

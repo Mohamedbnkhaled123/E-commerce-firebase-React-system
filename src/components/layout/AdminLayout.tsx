@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogOut, ExternalLink } from 'lucide-react';
+import { LayoutDashboard, LogOut, ExternalLink, Menu, X } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { cn } from '../../utils/cn';
 
@@ -7,6 +8,7 @@ export const AdminLayout = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const logout = useAuthStore((state) => state.logout);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -19,10 +21,43 @@ export const AdminLayout = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
+            {/* Mobile Header */}
+            <div className="flex h-16 items-center border-b border-velora-muted bg-white px-4 lg:hidden">
+                <button
+                    onClick={() => setIsSidebarOpen(true)}
+                    className="rounded-md p-2 text-velora-text transition-colors duration-200 hover:bg-velora-bg hover:text-velora-dark"
+                >
+                    <Menu className="h-6 w-6" />
+                </button>
+                <div className="ml-4 flex items-center gap-2">
+                    <img src="/velora-logo.png" alt="Velora Bags" className="h-8 w-auto object-contain" />
+                </div>
+            </div>
+
+            {/* Mobile Overlay */}
+            <div
+                className={cn(
+                    'fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 lg:hidden',
+                    isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                )}
+                onClick={() => setIsSidebarOpen(false)}
+            />
+
             {/* Sidebar */}
-            <aside className="fixed inset-y-0 left-0 z-50 w-64 border-r border-velora-muted bg-white">
+            <aside
+                className={cn(
+                    'fixed inset-y-0 left-0 z-50 w-64 border-r border-velora-muted bg-white transition-transform duration-300 ease-in-out lg:translate-x-0',
+                    isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                )}
+            >
                 <div className="flex h-20 items-center justify-between border-b border-velora-muted px-6">
                     <img src="/velora-logo.png" alt="Velora Bags" className="h-14 w-auto object-contain" />
+                    <button
+                        onClick={() => setIsSidebarOpen(false)}
+                        className="rounded-md p-2 text-velora-text transition-colors duration-200 hover:bg-velora-bg hover:text-velora-dark lg:hidden"
+                    >
+                        <X className="h-6 w-6" />
+                    </button>
                 </div>
                 <nav className="space-y-1 p-4">
                     {navItems.map((item) => {
@@ -50,15 +85,13 @@ export const AdminLayout = () => {
 
                 {/* View Store Button */}
                 <div className="px-4 py-2">
-                    <a
-                        href="/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Link
+                        to="/"
                         className="flex w-full items-center gap-3 rounded-md bg-velora px-3 py-2 text-sm font-medium text-white hover:bg-velora-dark transition-colors"
                     >
                         <ExternalLink className="h-4 w-4" />
                         View Store
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="absolute bottom-0 w-full border-t border-velora-muted p-4">
@@ -73,7 +106,7 @@ export const AdminLayout = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="pl-64">
+            <main className="lg:pl-64">
                 <div className="mx-auto max-w-7xl p-8">
                     <Outlet />
                 </div>

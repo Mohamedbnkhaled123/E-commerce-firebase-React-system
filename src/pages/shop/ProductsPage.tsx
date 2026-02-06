@@ -1,12 +1,15 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useProductStore } from '../../store/useProductStore';
+import { CATEGORIES } from '../../data/categories';
 import { ProductCard } from '../../components/product/ProductCard';
 import { SearchBar } from '../../components/common/SearchBar';
 import { X } from 'lucide-react';
+import { CategoryCard } from '../../components/product/CategoryCard';
 
 export const ProductsPage = () => {
     const products = useProductStore((state) => state.products);
+    // const categories = useProductStore((state) => state.categories); // Using static CATEGORIES instead
     const [searchParams, setSearchParams] = useSearchParams();
     const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
     const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
@@ -37,11 +40,6 @@ export const ProductsPage = () => {
         setSearchParams(params);
     };
 
-    // Get unique categories
-    const categories = useMemo(() => {
-        return Array.from(new Set(products.map((p) => p.category)));
-    }, [products]);
-
     // Filter products based on search query and category
     const filteredProducts = useMemo(() => {
         let filtered = products;
@@ -57,8 +55,8 @@ export const ProductsPage = () => {
             filtered = filtered.filter(
                 (product) =>
                     product.name.toLowerCase().includes(query) ||
-                    product.category.toLowerCase().includes(query) ||
-                    product.description.toLowerCase().includes(query)
+                    (product.category?.toLowerCase() ?? '').includes(query) ||
+                    (product.description?.toLowerCase() ?? '').includes(query)
             );
         }
 
@@ -67,19 +65,19 @@ export const ProductsPage = () => {
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-6 border-b border-gray-200 pb-6 sm:flex-row sm:items-center sm:justify-between">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900">All Products</h1>
+            <div className="flex flex-col gap-6 border-b border-velora-muted pb-6 lg:flex-row lg:items-center lg:justify-between">
+                <h1 className="text-4xl font-serif font-bold tracking-tight text-velora-dark">All Products</h1>
                 <SearchBar onSearch={handleSearch} placeholder="Search products..." />
             </div>
 
             {/* Active Filters */}
             {(searchQuery || selectedCategory) && (
                 <div className="mt-6 flex flex-wrap items-center gap-2">
-                    <span className="text-sm font-medium text-gray-700">Active filters:</span>
+                    <span className="text-sm font-medium text-velora-text">Active filters:</span>
                     {selectedCategory && (
                         <button
                             onClick={() => handleCategoryChange('')}
-                            className="inline-flex items-center gap-1.5 rounded-full bg-primary-100 px-3 py-1 text-sm font-medium text-primary-800 hover:bg-primary-200"
+                            className="inline-flex items-center gap-1.5 rounded-full bg-velora/10 px-3 py-1 text-sm font-medium text-velora hover:bg-velora/20 transition-colors"
                         >
                             {selectedCategory}
                             <X className="h-3 w-3" />
@@ -88,7 +86,7 @@ export const ProductsPage = () => {
                     {searchQuery && (
                         <button
                             onClick={() => handleSearch('')}
-                            className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-800 hover:bg-gray-200"
+                            className="inline-flex items-center gap-1.5 rounded-full bg-velora-muted px-3 py-1 text-sm font-medium text-velora-text hover:bg-velora-muted/80 transition-colors"
                         >
                             Search: "{searchQuery}"
                             <X className="h-3 w-3" />
@@ -97,51 +95,56 @@ export const ProductsPage = () => {
                 </div>
             )}
 
+
+
             {/* Category Filters */}
-            <div className="mt-6 flex flex-wrap gap-2">
-                <button
-                    onClick={() => handleCategoryChange('')}
-                    className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${!selectedCategory
-                            ? 'bg-primary text-white'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                >
-                    All Categories
-                </button>
-                {categories.map((category) => (
-                    <button
-                        key={category}
-                        onClick={() => handleCategoryChange(category)}
-                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${selectedCategory === category
-                                ? 'bg-primary text-white'
-                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                            }`}
-                    >
-                        {category}
-                    </button>
-                ))}
+            <div className="mt-8">
+                <h2 className="text-2xl font-serif font-bold tracking-tight text-velora-dark mb-6">Shop by Category</h2>
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+                    {CATEGORIES.map((category) => (
+                        <CategoryCard
+                            key={category.id || category.name}
+                            category={category}
+                            isSelected={selectedCategory === category.name}
+                            onClick={handleCategoryChange}
+                        />
+                    ))}
+                </div>
+
+                {/* Clear All Filters Button */}
+                {selectedCategory && (
+                    <div className="mt-4 flex justify-center">
+                        <button
+                            onClick={() => handleCategoryChange('')}
+                            className="inline-flex items-center gap-2 rounded-lg bg-velora-bg px-4 py-2 text-sm font-medium text-velora hover:bg-velora-muted transition-colors"
+                        >
+                            <X className="h-4 w-4" />
+                            Clear Category Filter
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Results Count */}
-            <div className="mt-6 text-sm text-gray-600">
+            <div className="mt-6 text-sm text-velora-text">
                 <p>
-                    Found <span className="font-semibold text-gray-900">{filteredProducts.length}</span>{' '}
+                    Found <span className="font-semibold text-velora-dark">{filteredProducts.length}</span>{' '}
                     {filteredProducts.length === 1 ? 'product' : 'products'}
                 </p>
             </div>
 
             {/* Products Grid */}
             {filteredProducts.length > 0 ? (
-                <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 lg:grid-cols-4 xl:gap-x-8">
                     {filteredProducts.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
                 </div>
             ) : (
                 <div className="mt-16 flex flex-col items-center justify-center text-center">
-                    <div className="rounded-full bg-gray-100 p-6">
+                    <div className="rounded-full bg-velora-bg p-6">
                         <svg
-                            className="h-12 w-12 text-gray-400"
+                            className="h-12 w-12 text-velora"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -154,8 +157,8 @@ export const ProductsPage = () => {
                             />
                         </svg>
                     </div>
-                    <h3 className="mt-4 text-lg font-semibold text-gray-900">No products found</h3>
-                    <p className="mt-2 text-sm text-gray-500">
+                    <h3 className="mt-4 text-lg font-serif font-semibold text-velora-dark">No products found</h3>
+                    <p className="mt-2 text-sm text-velora-text">
                         Try adjusting your filters or search to find what you're looking for.
                     </p>
                 </div>

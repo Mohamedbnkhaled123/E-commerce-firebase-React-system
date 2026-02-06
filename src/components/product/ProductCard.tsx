@@ -4,6 +4,7 @@ import type { Product } from '../../types';
 import { useCartStore } from '../../store/useCartStore';
 import { useToast } from '../../contexts/ToastContext';
 import { Button } from '../common/Button';
+import { ImageWithFallback } from '../common/ImageWithFallback';
 
 interface ProductCardProps {
     product: Product;
@@ -33,8 +34,20 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                 </div>
             )}
 
+            {/* Stock Badge - Only show if stock < 10 or out of stock */}
+            {product.stock === 0 ? (
+                <div className="absolute right-4 top-4 z-10 rounded-full bg-gray-900 px-3 py-1 text-xs font-bold text-white shadow-md">
+                    Out of Stock
+                </div>
+            ) : product.stock < 10 && (
+                <div className={`absolute right-4 top-4 z-10 rounded-full px-3 py-1 text-xs font-bold text-white shadow-md ${product.stock < 5 ? 'bg-red-600' : 'bg-orange-500'
+                    }`}>
+                    Only {product.stock} left{product.stock < 5 ? '!' : ''}
+                </div>
+            )}
+
             <div className="relative aspect-square overflow-hidden bg-velora-bg">
-                <img
+                <ImageWithFallback
                     src={product.image}
                     alt={product.name}
                     loading="lazy"
@@ -61,9 +74,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                     <Button
                         onClick={handleAddToCart}
                         className="w-full gap-2"
+                        disabled={product.stock === 0}
                     >
                         <ShoppingCart className="h-4 w-4" />
-                        Add to Cart
+                        {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                     </Button>
                 </div>
             </div>

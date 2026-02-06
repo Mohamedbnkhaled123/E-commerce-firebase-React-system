@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { useProductStore } from '../../store/useProductStore';
+import { CATEGORIES } from '../../data/categories';
 import { ProductCard } from '../../components/product/ProductCard';
 import { Button } from '../../components/common/Button';
 import { SearchBar } from '../../components/common/SearchBar';
@@ -11,12 +12,6 @@ export const HomePage = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const featuredProducts = products.slice(0, 4);
-
-    const categories = [
-        { name: 'Dresses', image: '/products/dress-floral.png' },
-        { name: 'Sweatshirts', image: '/products/sweatshirt-beige.png' },
-        { name: 'Blouses', image: '/products/blouse-silk.png' },
-    ];
 
     const handleSearch = (query: string) => {
         setSearchQuery(query);
@@ -30,8 +25,8 @@ export const HomePage = () => {
         return products.filter(
             (product) =>
                 product.name.toLowerCase().includes(query) ||
-                product.category.toLowerCase().includes(query) ||
-                product.description.toLowerCase().includes(query)
+                (product.category?.toLowerCase() ?? '').includes(query) ||
+                (product.description?.toLowerCase() ?? '').includes(query)
         );
     }, [products, searchQuery]);
 
@@ -87,7 +82,7 @@ export const HomePage = () => {
                     </div>
 
                     {filteredProducts.length > 0 ? (
-                        <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                        <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 lg:grid-cols-4 xl:gap-x-8">
                             {filteredProducts.map((product) => (
                                 <ProductCard key={product.id} product={product} />
                             ))}
@@ -121,10 +116,10 @@ export const HomePage = () => {
                     {/* Featured Categories */}
                     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <h2 className="text-2xl font-serif font-bold tracking-tight text-velora-dark">Shop by Category</h2>
-                        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                            {categories.map((category) => (
+                        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-4">
+                            {CATEGORIES.map((category) => (
                                 <Link
-                                    key={category.name}
+                                    key={category.id || category.name}
                                     to={`/products?category=${encodeURIComponent(category.name)}`}
                                     className="group relative overflow-hidden rounded-lg aspect-video cursor-pointer"
                                 >
@@ -164,7 +159,7 @@ export const HomePage = () => {
                                 View all
                             </Link>
                         </div>
-                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 lg:grid-cols-4 xl:gap-x-8">
                             {featuredProducts.map((product) => (
                                 <ProductCard key={product.id} product={product} />
                             ))}

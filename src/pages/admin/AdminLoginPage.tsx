@@ -48,6 +48,9 @@ export const AdminLoginPage = () => {
                             error={error}
                             placeholder="Enter admin password"
                         />
+                        <p className="mt-2 text-center text-xs text-gray-400">
+                            the password is admin123
+                        </p>
                     </div>
 
                     <div>
