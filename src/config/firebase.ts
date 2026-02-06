@@ -12,15 +12,6 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Debug: Check if environment variables are reaching the build
-console.log('[FirebaseConfig] Initialization check:', {
-    hasApiKey: !!firebaseConfig.apiKey,
-    hasProjectId: !!firebaseConfig.projectId,
-    projectId: firebaseConfig.projectId,
-    hasAppId: !!firebaseConfig.appId,
-    env: import.meta.env.MODE
-});
-
 // Set Firestore log level to 'error' to suppress debug warnings
 setLogLevel('error');
 
