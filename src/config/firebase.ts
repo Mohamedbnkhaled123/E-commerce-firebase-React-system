@@ -15,6 +15,9 @@ const firebaseConfig = {
 // Set Firestore log level to 'error' to suppress debug warnings
 setLogLevel('error');
 
+// DEBUG: Check what Project ID is actually incorrectly loaded
+console.log('🔥 Active Firebase Project ID:', firebaseConfig.projectId);
+
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
