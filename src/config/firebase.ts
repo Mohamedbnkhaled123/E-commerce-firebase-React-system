@@ -2,14 +2,15 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, setLogLevel } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
+// Hardcoded for debugging to bypass Netlify stale env vars
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+    apiKey: "AIzaSyAHesXKlIlqHKjjJI8Ab2V0rg56LGATE7E",
+    authDomain: "velora-bags-e03c5.firebaseapp.com",
+    projectId: "velora-bags-e03c5",
+    storageBucket: "velora-bags-e03c5.firebasestorage.app",
+    messagingSenderId: "459825471744",
+    appId: "1:459825471744:web:e808fa11ddf40f26bb13e5",
+    measurementId: "G-86589RR2ZV"
 };
 
 // Set Firestore log level to 'error' to suppress debug warnings
