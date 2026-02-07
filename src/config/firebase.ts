@@ -1,5 +1,4 @@
-import { initializeApp } from 'firebase/app';
-import { initializeFirestore, setLogLevel } from 'firebase/firestore';
+import { getFirestore, setLogLevel } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
@@ -16,12 +15,7 @@ const firebaseConfig = {
 setLogLevel('error');
 
 const app = initializeApp(firebaseConfig);
-
-// Force Long Polling to bypass potential network/firewall restrictions
-// This fixes the "hanging request" issue on some ISPs/Routers
-export const db = initializeFirestore(app, {
-    experimentalForceLongPolling: true,
-});
+export const db = getFirestore(app);
 export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
 
 // Disable offline persistence temporarily to debug real-time sync with cloud
