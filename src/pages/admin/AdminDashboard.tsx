@@ -6,9 +6,6 @@ import { Button } from '../../components/common/Button';
 import { ConfirmationModal } from '../../components/common/ConfirmationModal';
 import { ImageWithFallback } from '../../components/common/ImageWithFallback';
 
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../../config/firebase';
-
 export const AdminDashboard = () => {
     const { products, isLoading } = useProductStore();
     const deleteProduct = useProductStore((state) => state.deleteProduct);
@@ -17,20 +14,6 @@ export const AdminDashboard = () => {
         productId: null,
     });
 
-    const handleTestConnection = async () => {
-        console.log('Testing connection...');
-        try {
-            const docRef = await addDoc(collection(db, "test_connection"), {
-                timestamp: new Date(),
-                device: navigator.userAgent
-            });
-            console.log("Document written with ID: ", docRef.id);
-            alert("Success! Connection is working. ID: " + docRef.id);
-        } catch (e: any) {
-            console.error("Error adding document: ", e);
-            alert("Error: " + e.message);
-        }
-    };
 
     const handleDeleteClick = (productId: string) => {
         setDeleteModal({ isOpen: true, productId });
@@ -68,13 +51,6 @@ export const AdminDashboard = () => {
             <div className="flex items-center justify-between mb-8">
                 <h1 className="text-2xl font-bold text-gray-900">Products</h1>
                 <div className="flex gap-2">
-                    <Button
-                        variant="secondary"
-                        className="gap-2 h-9 px-3 text-sm sm:h-11 sm:px-4 sm:text-base"
-                        onClick={handleTestConnection}
-                    >
-                        Test Connection
-                    </Button>
                     <Link to="/admin/products/new">
                         <Button className="gap-2 h-9 px-3 text-sm sm:h-11 sm:px-4 sm:text-base">
                             <Plus className="h-4 w-4" />
