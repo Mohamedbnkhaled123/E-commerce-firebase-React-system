@@ -38,7 +38,7 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 
         // 2. Background Sync: Send to Firebase
         // We don't await this to return immediately, but we catch errors for rollback
-        productService.create(product).then(realId => {
+        productService.create(product).then((realId: string) => {
             // Update the temporary ID with real ID in the store
             set(state => ({
                 products: state.products.map(p => p.id === tempId ? { ...p, id: realId } : p)
@@ -128,9 +128,9 @@ export const useProductStore = create<ProductStore>((set, get) => ({
             set({ products: enrichedProducts, categories: CATEGORIES, isLoading: false });
         };
 
-        const unsubProducts = productService.subscribe((products) => {
+        const unsubProducts = productService.subscribe((products: Product[]) => {
             // Sort by newest first
-            const sortedProducts = products.sort((a, b) => {
+            const sortedProducts = products.sort((a: Product, b: Product) => {
                 const getTime = (date?: object | Date) => {
                     if (!date) return 0;
                     if ('seconds' in date) return (date as { seconds: number }).seconds * 1000;
@@ -144,9 +144,9 @@ export const useProductStore = create<ProductStore>((set, get) => ({
             updateState();
         });
 
-        const unsubCategories = categoryService.subscribe((categories) => {
+        const unsubCategories = categoryService.subscribe((categories: Category[]) => {
             // Merge static categories with DB categories, avoiding duplicates by name
-            const dbCategoryNames = new Set(categories.map(c => c.name.trim().toLowerCase()));
+            const dbCategoryNames = new Set(categories.map((c: Category) => c.name.trim().toLowerCase()));
             const allCategories = [
                 ...categories,
                 ...CATEGORIES.filter(c => !dbCategoryNames.has(c.name.trim().toLowerCase()))

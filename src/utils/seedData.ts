@@ -32,7 +32,7 @@ export async function seedInitialData() {
         } else {
             // Check for missing categories and add them
             const categoryMap = new Map<string, Category>();
-            existingCategories.forEach(cat => {
+            existingCategories.forEach((cat: Category) => {
                 categoryMap.set(cat.name.trim().toLowerCase(), cat);
             });
 
@@ -45,7 +45,7 @@ export async function seedInitialData() {
 
             // Clean up duplicates if any exist
             const duplicateCheck = new Map<string, Category[]>();
-            existingCategories.forEach(cat => {
+            existingCategories.forEach((cat: Category) => {
                 const normalizedName = cat.name.trim().toLowerCase();
                 if (!duplicateCheck.has(normalizedName)) {
                     duplicateCheck.set(normalizedName, []);
@@ -83,7 +83,7 @@ export async function seedInitialData() {
             for (const product of INITIAL_PRODUCTS) {
                 const { id: _unused, ...productData } = product; // Remove static ID
                 const sName = product.name.trim().toLowerCase();
-                const exists = existingProducts.some(p => p.name.trim().toLowerCase() === sName);
+                const exists = existingProducts.some((p: Product) => p.name.trim().toLowerCase() === sName);
 
                 if (!exists) {
                     await productService.create({
